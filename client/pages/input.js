@@ -27,27 +27,15 @@ export default function Input() {
     } 
   }
 
-  // const handleCurrentButton = async () => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/results/${selected[1][0]}`, {
-  //       method: 'GET'
-  //     });
-  //     const data = await response.json()
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
   return (
-    <div className='bg-darkblue h-screen'>
+    <div className='bg-darkblue h-auto'>
       <Head>
         <title>Explorify</title>
         <link rel='preconnect' href='https://fonts.gstatic.com' />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
       </Head>
       <main className='grid grid-cols-1 lg:grid-cols-2'>
-        <div className='m-12 lg:m-24 max-w-lg'>
+        <div className='p-12 lg:pt-24 max-w-lg'>
           <h3>Search for an artist.</h3>
           <input type='text' className='w-full py-1 px-3 md:text-xl md:py-2 md:px-8 my-5' value={search} onChange={handleInput}/>
           {

@@ -46,7 +46,6 @@ class Util:
     def find_artists(self, sp, name): 
         result = sp.search(q=name, type="artist", limit=5)
         artists = []
-        print(result)
 
         for item in result['artists']['items']: 
             artists.append((item['name'], [item['id'], item['images'][2]['url']]))

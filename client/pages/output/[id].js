@@ -33,17 +33,17 @@ export default function Output() {
   }, [id]);
 
   return (
-    <div className='bg-darkblue h-screen'>
+    <div className='bg-darkblue h-auto'>
       <Head>
         <title>Explorify</title>
         <link rel='preconnect' href='https://fonts.gstatic.com' />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
       </Head>
       <main>
-        <div className='max-w-6xl pt-12 md:pt-24 lg:pt-36 px-12 md:pl-24 lg:pl-36'>
+        <div className='max-w-6xl py-12 md:pt-24 lg:pt-36 px-12 md:pl-24 lg:pl-36'>
           {
             data ? <>
-              <h3>Here are the top 10 songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
+              <h3>Here are the top songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
               <p className='text-white underline mb-5 md:mb-12'>How was this calculated?</p>
               {
                 data['distances'].map((item, idx) => <Result main={item[0][0]} album={item[0][1]} key={idx}/>)

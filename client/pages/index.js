@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
           <h2 className='pt-1 md:pt-2'>A Spotify song recommender</h2>
           <h3 className='pt-12'>Search for an artist.</h3>
           <h3>Find songs you'll like based on your current music tastes.</h3>
-          <button>Let's go!</button>
+          <button><Link href='/input'>Let's go!</Link></button>
         </div>
       </main>
     </div>
