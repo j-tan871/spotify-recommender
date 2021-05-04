@@ -68,7 +68,7 @@ class Util:
 
     '''
     Calculates the total euclidean distance between the user's top tracks and the artist's top tracks
-    output: Hashmap of { track_name, distance }
+    output: Hashmap of { track_name, distance } sorted by distance
     '''
     def total_distance(self, sp, user_tracks, artist_tracks):
         distances = {}
@@ -81,7 +81,7 @@ class Util:
                 distance += np.linalg.norm(point_1 - point_2)
             distances[track_name] = distance
         
-        return distances
+        return self.sort(distances)
     
     '''
     Sorts the artist top tracks by euclidean distance
@@ -89,9 +89,22 @@ class Util:
     def sort(self, distances):
         return sorted(distances.items(), key=lambda x:x[1], reverse=False)
 
+    ''' 
+    Finds the artist's top tracks most similar to the user's top tracks
+    '''
+    def find_similar_tracks(self, sp, artist_id):
+        user_tracks = self.top_tracks(sp)
+        artist_tracks = self.find_artist_top_tracks(sp, artist_id)
+
+        distances = self.total_distance(sp, user_tracks, artist_tracks)
+        dist_dict = {}
+
+        for track, distance in distances: 
+            dist_dict[track] = distance
+
+        return dist_dict
+
 # util = Util()
 # sp = util.setup()
-# user_tracks = util.top_tracks(sp)
-# artist_tracks = util.find_artist_top_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS')
-# distances = util.total_distance(sp, user_tracks, artist_tracks)
-# print(util.sort(distances))
+# distances = util.find_similar_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS')
+# print(distances)

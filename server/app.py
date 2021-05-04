@@ -22,7 +22,7 @@ def search(name):
 @app.route('/results/<string:artist>')
 @cross_origin()
 def results(artist):
-    pass
+    return util.find_similar_tracks(sp, artist)
 
 if __name__ == "__main__":
     app.run()
