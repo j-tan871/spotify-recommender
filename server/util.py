@@ -119,6 +119,7 @@ class Util:
 
         dist_dict = {}
         dist_dict['distances'] = distances
+        dist_dict['name'] = sp.artist(artist_id)['name']
 
         return dist_dict
 

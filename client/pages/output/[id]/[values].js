@@ -2,37 +2,32 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { React, useEffect, useState } from 'react';
 
-import Result from '../../components/Result';
+import Result from '../../../components/Result';
 
 export default function Output() {
   const router = useRouter()
-  const { id } = router.query
+  const { id, values } = router.query
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSongs = async () => {
-      if (!id) {
+      if (!values) {
         return;
       }
 
       try {
-        console.log(id);
-        console.log(`${id}`);
-        const response = await fetch(`http://localhost:5000/results/${id}`, {
+        const response = await fetch(`http://localhost:5000/customresults/${id}/${values}`, {
           method: 'GET',
         });
         const responseData = await response.json();
         setData(responseData);
-        console.log('hi')
-        console.log(data);
+        console.log(responseData);
       } catch (err) {
         console.log(err);
       }
-      setLoading(false);
     };
     fetchSongs();
-  }, [id]);
+  }, [values]);
 
   return (
     <div className='bg-darkblue h-screen'>
@@ -42,14 +37,7 @@ export default function Output() {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
       </Head>
       <main>
-        {
-          loading ? 
-          <div className='px-12 py-12 md:px-24 md:py-24 lg:px-36 lg:py-36'>
-            <h3 className='mb-3 md:mb-5'>Calculating Euclidean distance...</h3>
-            <h3 className='mb-3 md:mb-5'>Finding similar songs...</h3>
-            <h3>Almost there...</h3>
-          </div> : 
-          <div className='bg-darkblue max-w-6xl py-12 md:pt-24 lg:pt-36 px-12 md:pl-24 lg:pl-36'>
+        <div className='bg-darkblue max-w-6xl py-12 md:pt-24 lg:pt-36 px-12 md:pl-24 lg:pl-36'>
           {
             data ? <>
               <h3>Here are the top songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
@@ -60,7 +48,6 @@ export default function Output() {
             </>: null
           }
         </div>
-        }
       </main>
     </div>
   )
