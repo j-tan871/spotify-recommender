@@ -24,7 +24,6 @@ class Util:
         track_data = {}
 
         for idx, item in enumerate(results['items']):
-            track = item['name']
             track_data[item['name']] = [self.characteristics(sp, item['uri'])]
         
         return track_data
@@ -47,6 +46,7 @@ class Util:
     def find_artists(self, sp, name): 
         result = sp.search(q=name, type="artist", limit=5)
         artists = []
+        print(result)
 
         for item in result['artists']['items']: 
             artists.append((item['name'], [item['id'], item['images'][2]['url']]))
@@ -56,13 +56,13 @@ class Util:
     '''
     Gets an artist's top 10 tracks and track characteristics by artist id
     input: artist id
-    output: Hashmap of { track_name, [ danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence ] }
+    output: Hashmap of { [track_name, album_name], [ danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence ] }
     '''
     def find_artist_top_tracks(self, sp, artist_id):
         result = sp.artist_top_tracks(artist_id)
         tracks = {}
         for track in result['tracks']: 
-            tracks[track['name']] = self.characteristics(sp, track['uri'])
+            tracks[track['name'], track['album']['name']] = self.characteristics(sp, track['uri'])
 
         return tracks
 
@@ -100,6 +100,7 @@ class Util:
 
         dist_dict = {}
         dist_dict['distances'] = distances
+        dist_dict['name'] = sp.artist(artist_id)['name']
 
         return dist_dict
 

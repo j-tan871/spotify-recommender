@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useState, useEffect, React } from 'react';
 
 import Result from '../components/Result';
@@ -6,16 +7,18 @@ import Result from '../components/Result';
 export default function Input() {
   const [search, setSearch] = useState('');
   const [results, setResults] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   const handleInput = async (event) => {
     setSearch(event.target.value);
-    console.log(search);
+    // console.log(search);
     if (search.length > 1) {
       try {
         const response = await fetch(`http://localhost:5000/search/${search}`, {
           method: 'GET'
         });
-        const data = await response.json()
+        const data = await response.json();
+        console.log(data);
         setResults(data['artists']);
         // console.log(results);
       } catch (err) {
@@ -23,6 +26,18 @@ export default function Input() {
       }
     } 
   }
+
+  // const handleCurrentButton = async () => {
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/results/${selected[1][0]}`, {
+  //       method: 'GET'
+  //     });
+  //     const data = await response.json()
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   return (
     <div className='bg-darkblue h-screen'>
@@ -36,7 +51,10 @@ export default function Input() {
           <h3>Search for an artist.</h3>
           <input type='text' className='w-full py-1 px-3 md:text-xl md:py-2 md:px-8 my-5' value={search} onChange={handleInput}/>
           {
-            results ? results.map((item, idx) => <Result main={item[0]} key={idx}/>) : null
+            results ? results.map((item, idx) => <div onClick={() => {setSelected(item)}}><Result main={item[0]} key={idx} /></div>) : null
+          }
+          {
+            selected ? <p className='text-white pt-5'><span className='font-bold'>{selected[0]}</span>? Good choice!</p> : null
           }
           {/* <Result main='Lizzy McAlpine'/>
           <Result main='Jacob Collier'/> */}
@@ -86,8 +104,13 @@ export default function Input() {
             </div>
             <input type="range" min={0} max={100}></input>
           </div>
-          <button>i'm ready! use my current Spotify profile.</button>
-          <button>i'm ready! use the current characteristics.</button>
+          {
+            selected ? 
+              <>
+                <button><Link href={`/output/${selected[1][0]}`}>i'm ready! use my current Spotify profile.</Link></button>
+                <button>i'm ready! use the current characteristics.</button>
+              </> : null
+          }
         </div>
       </main>
     </div>
