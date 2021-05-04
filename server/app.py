@@ -24,5 +24,15 @@ def search(name):
 def results(artist):
     return util.find_similar_tracks(sp, artist)
 
+@app.route('/customresults/<string:artist_id>/<string:characteristics>')
+@cross_origin()
+def customresults(artist_id, characteristics): 
+    ch = characteristics.split(':')
+    float_ch = []
+    for c in ch:
+        float_ch.append(float(c))
+
+    return util.k_nearest_neighbors(sp, float_ch, artist_id)
+
 if __name__ == "__main__":
     app.run()

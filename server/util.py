@@ -16,7 +16,7 @@ class Util:
     '''
     Gets a user's top 10 tracks on Spotify, with the characteristics of each track. 
     input: Spotify object
-    output: Hashmap { track_name, [ danceability, energy, key, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo ] }
+    output: Hashmap { track_name, [ danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence ] }
     '''
     def top_tracks(self, sp):
         results = sp.current_user_top_tracks(limit=10)
@@ -32,12 +32,12 @@ class Util:
     '''
     Gets the characteristics of a track by song URI. 
     input: Spotify object, song URI
-    output: List of characteristics: [ danceability, energy, key, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo ]
+    output: List of characteristics: [ danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence ]
     '''
     def characteristics(self, sp, uri):
         char = sp.audio_features(tracks=[uri])
-        return [char[0]['danceability'], char[0]['energy'], char[0]['key'], char[0]['loudness'], char[0]['speechiness'], 
-            char[0]['acousticness'], char[0]['instrumentalness'], char[0]['liveness'], char[0]['valence'], char[0]['tempo']]
+        return [char[0]['danceability'], char[0]['energy'], char[0]['speechiness'], 
+            char[0]['acousticness'], char[0]['instrumentalness'], char[0]['liveness'], char[0]['valence'] ]
 
     '''
     Gets 5 artists and artist information by artist name
@@ -56,7 +56,7 @@ class Util:
     '''
     Gets an artist's top 10 tracks and track characteristics by artist id
     input: artist id
-    output: Hashmap of { track_name, [ danceability, energy, key, loudness, speechiness, acousticness, instrumentalness, liveness, valence, tempo ] }
+    output: Hashmap of { track_name, [ danceability, energy, speechiness, acousticness, instrumentalness, liveness, valence ] }
     '''
     def find_artist_top_tracks(self, sp, artist_id):
         result = sp.artist_top_tracks(artist_id)
@@ -97,14 +97,33 @@ class Util:
         artist_tracks = self.find_artist_top_tracks(sp, artist_id)
 
         distances = self.total_distance(sp, user_tracks, artist_tracks)
-        dist_dict = {}
 
-        for track, distance in distances: 
-            dist_dict[track] = distance
+        dist_dict = {}
+        dist_dict['distances'] = distances
+
+        return dist_dict
+
+    '''
+    Finds the artist's top tracks most similar to the specified characteristics
+    '''
+    def k_nearest_neighbors(self, sp, characteristics, artist_id):
+        point_1 = np.array(characteristics)
+        artist_tracks = self.find_artist_top_tracks(sp, artist_id)
+        distances = {}
+
+        for track_name in artist_tracks: 
+            point_2 = np.array(artist_tracks[track_name])
+            distances[track_name] = np.linalg.norm(point_1 - point_2)
+        
+        distances = self.sort(distances)
+
+        dist_dict = {}
+        dist_dict['distances'] = distances
 
         return dist_dict
 
 # util = Util()
 # sp = util.setup()
+# print(util.find_artist_top_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS'))
 # distances = util.find_similar_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS')
 # print(distances)
