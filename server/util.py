@@ -42,14 +42,14 @@ class Util:
     '''
     Gets 5 artists and artist information by artist name
     intput: Spotify object, artist name
-    output: Hashmap of { artist_name, [artist_id, artist_image] }
+    output: List of [ artist_name, [artist_id, artist_image] ]
     '''
     def find_artists(self, sp, name): 
-        result = sp.search(q="Lizzy", type="artist", limit=5)
-        artists = {}
+        result = sp.search(q=name, type="artist", limit=5)
+        artists = []
 
         for item in result['artists']['items']: 
-            artists[item['name']] = [item['id'], item['images'][2]['url']]
+            artists.append((item['name'], [item['id'], item['images'][2]['url']]))
 
         return artists
 

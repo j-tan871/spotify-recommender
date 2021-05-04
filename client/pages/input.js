@@ -1,8 +1,29 @@
 import Head from 'next/head';
+import { useState, useEffect, React } from 'react';
 
 import Result from '../components/Result';
 
 export default function Input() {
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState(null);
+
+  const handleInput = async (event) => {
+    setSearch(event.target.value);
+    console.log(search);
+    if (search.length > 1) {
+      try {
+        const response = await fetch(`http://localhost:5000/search/${search}`, {
+          method: 'GET'
+        });
+        const data = await response.json()
+        setResults(data['artists']);
+        // console.log(results);
+      } catch (err) {
+        console.log(err);
+      }
+    } 
+  }
+
   return (
     <div className='bg-darkblue h-screen'>
       <Head>
@@ -10,12 +31,15 @@ export default function Input() {
         <link rel='preconnect' href='https://fonts.gstatic.com' />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
       </Head>
-      <div className='grid grid-cols-1 lg:grid-cols-2'>
+      <main className='grid grid-cols-1 lg:grid-cols-2'>
         <div className='m-12 lg:m-24 max-w-lg'>
           <h3>Search for an artist.</h3>
-          <input type='text' className='w-full py-1 px-3 md:text-xl md:py-2 md:px-8 my-5' onChange={() => console.log('hi')}/>
-          <Result name='Lizzy McAlpine'/>
-          <Result name='Jacob Collier'/>
+          <input type='text' className='w-full py-1 px-3 md:text-xl md:py-2 md:px-8 my-5' value={search} onChange={handleInput}/>
+          {
+            results ? results.map((item, idx) => <Result main={item[0]} key={idx}/>) : null
+          }
+          {/* <Result main='Lizzy McAlpine'/>
+          <Result main='Jacob Collier'/> */}
         </div>
         <div className='my-12 lg:my-24 max-w-lg'>
           <h3>Your results will be based on your top tracks.</h3>
@@ -65,7 +89,7 @@ export default function Input() {
           <button>i'm ready! use my current Spotify profile.</button>
           <button>i'm ready! use the current characteristics.</button>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

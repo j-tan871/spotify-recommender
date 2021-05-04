@@ -17,7 +17,7 @@ def index():
 @app.route('/search/<string:name>')
 @cross_origin()
 def search(name):
-    return util.find_artists(sp, name)
+    return {'artists' : util.find_artists(sp, name)}
 
 @app.route('/results/<string:artist>')
 @cross_origin()
