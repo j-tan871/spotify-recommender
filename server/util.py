@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import numpy as np
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
@@ -65,6 +66,32 @@ class Util:
 
         return tracks
 
-# print(top_tracks(sp))
-# print(find_artists(sp, 'Lizzy'))
-# print(find_artist_top_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS'))
+    '''
+    Calculates the total euclidean distance between the user's top tracks and the artist's top tracks
+    output: Hashmap of { track_name, distance }
+    '''
+    def total_distance(self, sp, user_tracks, artist_tracks):
+        distances = {}
+
+        for track_name in artist_tracks: 
+            distance = 0.0
+            point_1 = np.array(artist_tracks[track_name])
+            for user_track_name in user_tracks: 
+                point_2 = np.array(user_tracks[user_track_name])
+                distance += np.linalg.norm(point_1 - point_2)
+            distances[track_name] = distance
+        
+        return distances
+    
+    '''
+    Sorts the artist top tracks by euclidean distance
+    '''
+    def sort(self, distances):
+        return sorted(distances.items(), key=lambda x:x[1], reverse=False)
+
+# util = Util()
+# sp = util.setup()
+# user_tracks = util.top_tracks(sp)
+# artist_tracks = util.find_artist_top_tracks(sp, '1GmsPCcpKgF9OhlNXjOsbS')
+# distances = util.total_distance(sp, user_tracks, artist_tracks)
+# print(util.sort(distances))
