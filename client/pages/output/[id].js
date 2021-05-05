@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { React, useEffect, useState } from 'react';
 
@@ -35,7 +36,7 @@ export default function Output() {
   }, [id]);
 
   return (
-    <div className='bg-darkblue h-screen'>
+    <div className='bg-darkblue h-auto lg:pb-36 min-h-screen'>
       <Head>
         <title>Explorify</title>
         <link rel='preconnect' href='https://fonts.gstatic.com' />
@@ -49,14 +50,15 @@ export default function Output() {
             <h3 className='mb-3 md:mb-5'>Finding similar songs...</h3>
             <h3>Almost there...</h3>
           </div> : 
-          <div className='bg-darkblue max-w-6xl py-12 md:pt-24 lg:pt-36 px-12 md:pl-24 lg:pl-36'>
+          <div className='bg-darkblue max-w-5xl py-12 md:pt-24 px-12 md:pl-24 lg:pl-36'>
           {
             data ? <>
-              <h3>Here are the top songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
+              <h3>Here are the top 10 songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
               <p className='text-white underline mb-5 md:mb-12'>How was this calculated?</p>
               {
                 data['distances'].map((item, idx) => <Result main={item[0][0]} album={item[0][1]} key={idx}/>)
               }
+              <button><Link href={`/input`}>I want to discover more songs!</Link></button>
             </>: null
           }
         </div>

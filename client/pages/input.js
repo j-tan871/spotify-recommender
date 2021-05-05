@@ -58,8 +58,7 @@ export default function Input() {
           {
             selected ? <p className='text-white pt-5'><span className='font-bold'>{selected[0]}</span>? Good choice!</p> : null
           }
-          {/* <Result main='Lizzy McAlpine'/>
-          <Result main='Jacob Collier'/> */}
+          <button><Link href='/'>Go home</Link></button>
         </div>
         <div className='my-12 mx-12 lg:my-24 max-w-lg'>
           <h3>Your results will be based on your top tracks.</h3>
@@ -109,9 +108,9 @@ export default function Input() {
           {
             selected ? 
               <>
-                <button><Link href={`/output/${selected[1][0]}`}>i'm ready! use my current Spotify profile.</Link></button>
+                <button><Link href={`/output/${selected[1][0]}`}>I'm ready! Use my current Spotify profile.</Link></button>
                 <button><Link href={`/output/${selected[1][0]}/${inputs.danceability / 100}:${inputs.energy / 100}:${inputs.speechiness / 100}:${inputs.acousticness / 100}:${inputs.instrumentalness / 100}:${inputs.liveness / 100}:${inputs.valence / 100}`}>
-                    i'm ready! use the current characteristics.</Link></button>
+                    I'm ready! Use the current characteristics.</Link></button>
               </> : null
           }
         </div>
