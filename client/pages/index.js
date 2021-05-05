@@ -1,7 +1,26 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [authUrl, setAuthUrl] = useState(null);
+
+  useEffect(() => {
+    const auth = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/`, {
+          method: 'GET', 
+        });
+        const data = await response.json();
+        setAuthUrl(data['url']);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    auth();
+  }, []);
+
+
   return (
     <div className='bg-darkblue flex items-center justify-center h-screen p-5 md:p-12'>
       <Head>
@@ -18,7 +37,7 @@ export default function Home() {
           <h2 className='pt-1 md:pt-2'>A Spotify song recommender</h2>
           <h3 className='pt-12'>Search for an artist.</h3>
           <h3>Find songs you'll like based on your current music tastes.</h3>
-          <button><Link href='/input'>Let's go!</Link></button>
+          <button><a href={authUrl}>Let's go!</a></button>
         </div>
       </main>
     </div>
