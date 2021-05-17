@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState, useEffect, React } from 'react';
 import { useRouter } from 'next/router'
 
-import Result from '../../components/Result';
+import SearchResult from '../../components/SearchResult';
 
 export default function Input() {
   const [search, setSearch] = useState('');
@@ -56,7 +56,7 @@ export default function Input() {
           <h3>Search for an artist.</h3>
           <input type='text' className='w-full py-1 px-3 md:text-xl md:py-2 md:px-8 my-5' value={search} onChange={handleInput}/>
           {
-            results ? results.map((item, idx) => <div onClick={() => {setSelected(item)}}><Result main={item[0]} key={idx} /></div>) : null
+            results ? results.map((item, idx) => <div onClick={() => {setSelected(item)}}><SearchResult main={item[0]} key={idx} /></div>) : null
           }
           {
             selected ? <p className='text-white pt-5'><span className='font-bold'>{selected[0]}</span>? Good choice!</p> : null

@@ -44,7 +44,7 @@ export default function Output() {
               <h3>Here are the top 10 songs by <span className='font-bold'>{data['name']}</span>, ranked by similarity to your current music tastes.</h3>
               <p className='text-white underline mb-5 md:mb-12'><a href='/info'>How was this calculated?</a></p>
               {
-                data['distances'].map((item, idx) => <Result main={item[0][0]} album={item[0][1]} key={idx}/>)
+                data['distances'].map((item, idx) => <Result main={item[0][0]} album={item[0][1]} key={idx} />)
               }
               <button><Link href={`/input/${tok}`}>I want to discover more songs!</Link></button>
             </>: null

@@ -25,7 +25,7 @@ export default function Info() {
         <p className='text-white md:text-lg'>
           Songs that are on average nearer to your current top 10 songs, or the characteristics that you input, are ranked higher in your results. 
         </p> */}
-        <button onClick={() => router.back()}>I want to discover more songs!</button>
+        <button onClick={() => router.back()}>Go back</button>
       </main>
     </div>
   )
