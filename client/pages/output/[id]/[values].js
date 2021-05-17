@@ -17,7 +17,7 @@ export default function Output() {
       }
 
       try {
-        const response = await fetch(`https://explorify-api.herokuapp.com/customresults/${id}/${values}`, {
+        const response = await fetch(`http://localhost:5000/customresults/${id}/${values}`, {
           method: 'GET',
         });
         const responseData = await response.json();

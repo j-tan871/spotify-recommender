@@ -17,13 +17,14 @@ export default function Input() {
     'liveness': 50,
     'valence': 50 
   });
+  const { id } = router.query
 
   const handleInput = async (event) => {
     setSearch(event.target.value);
     // console.log(search);
     if (search.length > 1) {
       try {
-        const response = await fetch(`http://localhost:5000/search/${search}`, {
+        const response = await fetch(`http://localhost:5000/search/${search}/${id}`, {
           method: 'GET'
         });
         const data = await response.json();
