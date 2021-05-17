@@ -1,6 +1,8 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router'
 
 export default function Info() {
+  const router = useRouter()
   return (
     <div className='bg-darkblue h-auto lg:pb-36 min-h-screen'>
       <Head>
@@ -19,7 +21,7 @@ export default function Info() {
         <p className='text-white pb-2 md:text-lg'>
           Songs that are on average nearer to your current top 10 songs, or the characteristics that you input, are ranked higher in your results. 
         </p>
-        <button>I want to discover more songs!</button>
+        <button onClick={() => router.back()}>I want to discover more songs!</button>
       </main>
     </div>
   )
