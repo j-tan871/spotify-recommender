@@ -58,7 +58,7 @@ export default function Output() {
               {
                 data['distances'].map((item, idx) => <Result main={item[0][0]} album={item[0][1]} key={idx}/>)
               }
-              <button><Link href={`/input/${tok}`}>I want to discover more songs!</Link></button>
+              <button className='bg-pink'><Link href={`/input/${tok}`}>I want to discover more songs!</Link></button>
             </>: null
           }
         </div>
