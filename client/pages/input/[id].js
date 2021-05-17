@@ -1,8 +1,9 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { useState, useEffect, React } from 'react';
+import { useRouter } from 'next/router'
 
-import Result from '../components/Result';
+import Result from '../../components/Result';
 
 export default function Input() {
   const [search, setSearch] = useState('');
@@ -17,6 +18,7 @@ export default function Input() {
     'liveness': 50,
     'valence': 50 
   });
+  const router = useRouter()
   const { id } = router.query
 
   const handleInput = async (event) => {
@@ -24,7 +26,7 @@ export default function Input() {
     // console.log(search);
     if (search.length > 1) {
       try {
-        const response = await fetch(`http://localhost:5000/search/${search}/${id}`, {
+        const response = await fetch(`https://explorify-api.herokuapp.com/search/${search}/${id}`, {
           method: 'GET'
         });
         const data = await response.json();
@@ -109,8 +111,8 @@ export default function Input() {
           {
             selected ? 
               <>
-                <button><Link href={`/output/${selected[1][0]}`}>I'm ready! Use my current Spotify profile.</Link></button>
-                <button><Link href={`/output/${selected[1][0]}/${inputs.danceability / 100}:${inputs.energy / 100}:${inputs.speechiness / 100}:${inputs.acousticness / 100}:${inputs.instrumentalness / 100}:${inputs.liveness / 100}:${inputs.valence / 100}`}>
+                <button><Link href={`/output/${id}/${selected[1][0]}`}>I'm ready! Use my current Spotify profile.</Link></button>
+                <button><Link href={`/output/${id}/${selected[1][0]}/${inputs.danceability / 100}:${inputs.energy / 100}:${inputs.speechiness / 100}:${inputs.acousticness / 100}:${inputs.instrumentalness / 100}:${inputs.liveness / 100}:${inputs.valence / 100}/`}>
                     I'm ready! Use the current characteristics.</Link></button>
               </> : null
           }

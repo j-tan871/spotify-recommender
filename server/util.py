@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 import numpy as np
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -6,9 +7,10 @@ from spotipy.oauth2 import SpotifyOAuth
 class Util: 
 
     def setup(self): 
-        return spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get("CLIENT_ID"),
-                                                                client_secret=os.environ.get("CLIENT_SECRET"),
-                                                                redirect_uri=os.environ.get("REDIRECT"),
+        load_dotenv()
+        return spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.getenv("CLIENT_ID"),
+                                                                client_secret=os.getenv("CLIENT_SECRET"),
+                                                                redirect_uri=os.getenv("REDIRECT"),
                                                                 scope="user-top-read"))
 
     '''
