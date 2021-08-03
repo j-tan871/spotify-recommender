@@ -37,6 +37,7 @@ export default function Home() {
           <h2 className='pt-1 md:pt-2'>A Spotify song recommender</h2>
           <h3 className='pt-12'>Search for an artist.</h3>
           <h3>Find songs you'll like based on your current music tastes.</h3>
+          <p className='text-white mt-2'>The page may take some time to load, since the backend is hosted on Heroku's free tier. If the button doesn't work, refresh the page and try again!</p>
           <button className='bg-pink'><a href={authUrl}>Let's go!</a></button>
         </div>
       </main>
